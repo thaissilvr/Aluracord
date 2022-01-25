@@ -33,6 +33,7 @@ export default function PaginaInicial() {
     useEffect (() => {
         const githubApi = async () => {
           await axios.get(`https://api.github.com/users/${username}`).then((response) => {
+            
             setInfo(response.data)
             // console.log(response.data)
           })
