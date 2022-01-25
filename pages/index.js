@@ -1,7 +1,8 @@
 import appConfig from '../config.json';
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from 'next/router'
+import axios, { Axios } from 'axios'
 
 
 
@@ -23,8 +24,23 @@ function Titulo (props) {
 }
 
 export default function PaginaInicial() {
-    const [username, setUsername] = React.useState('thaissilvr')
+    const [username, setUsername] = React.useState('')
+    const [info, setInfo] = React.useState('')
     const roteamento = useRouter();
+    const nullPic = 'https://media.istockphoto.com/photos/half-of-orage-fruit-slice-isolated-on-white-picture-id950915068?b=1&k=20&m=950915068&s=170667a&w=0&h=QmGr8Pjt6KJPQYmwtbZiJ0t2bvWUGHriILUJJJ_bSUk='
+
+
+    useEffect (() => {
+        const githubApi = async () => {
+          await axios.get(`https://api.github.com/users/${username}`).then((response) => {
+            setInfo(response.data)
+            // console.log(response.data)
+          })
+        }
+        githubApi() 
+    })
+
+
 
     return (
       <>
@@ -87,6 +103,7 @@ export default function PaginaInicial() {
               />
               <Button
                 type='submit'
+                disabled={username.length < 3}
                 label='Entrar'
                 fullWidth
                 buttonColors={{
@@ -121,7 +138,10 @@ export default function PaginaInicial() {
                   borderRadius: '50%',
                   marginBottom: '16px',
                 }}
-                src={`https://github.com/${username}.png`}
+                src={ username.length > 2 ? `https://github.com/${username}.png` : nullPic}
+                onError = { function(error) {
+                  error.target.src = 'https://media.istockphoto.com/photos/half-of-orage-fruit-slice-isolated-on-white-picture-id950915068?b=1&k=20&m=950915068&s=170667a&w=0&h=QmGr8Pjt6KJPQYmwtbZiJ0t2bvWUGHriILUJJJ_bSUk='
+                }}
               />
               <Text
                 variant="body4"
@@ -133,6 +153,29 @@ export default function PaginaInicial() {
                 }}
               >
                 {username}
+                
+              </Text>
+              <Text
+                variant="body4"
+                styleSheet={{
+                  color: appConfig.theme.colors.neutrals['050'],
+                  backgroundColor: appConfig.theme.colors.neutrals[900],
+                  padding: '3px 10px',
+                  borderRadius: '1000px'
+                }}
+              >
+                {info.name}
+              </Text>
+              <Text
+                variant="body4"
+                styleSheet={{
+                  color: appConfig.theme.colors.neutrals['050'],
+                  backgroundColor: appConfig.theme.colors.neutrals[900],
+                  padding: '3px 10px',
+                  borderRadius: '1000px'
+                }}
+              >
+                Repositórios: {info.public_repos}
               </Text>
             </Box>
             {/* Photo Area */}
