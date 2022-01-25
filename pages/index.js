@@ -164,7 +164,7 @@ export default function PaginaInicial() {
                   borderRadius: '1000px'
                 }}
               >
-                {info.name}
+               Nome: {info.name}
               </Text>
               <Text
                 variant="body4"
@@ -175,7 +175,7 @@ export default function PaginaInicial() {
                   borderRadius: '1000px'
                 }}
               >
-                Repositórios: {info.public_repos}
+              Repositórios: {info.public_repos}
               </Text>
             </Box>
             {/* Photo Area */}
