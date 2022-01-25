@@ -2,7 +2,7 @@ import appConfig from '../config.json';
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
 import React, { useEffect } from "react";
 import { useRouter } from 'next/router'
-import axios, { Axios } from 'axios'
+import axios from 'axios'
 
 
 
@@ -86,6 +86,7 @@ export default function PaginaInicial() {
               </Text>
   
               <TextField
+              placeholder='Insira seu user do Github aqui... 😁'
                 value = {username}
                 onChange={function (event){
                   const userValue = event.target.value
@@ -140,7 +141,7 @@ export default function PaginaInicial() {
                 }}
                 src={ username.length > 2 ? `https://github.com/${username}.png` : nullPic}
                 onError = { function(error) {
-                  error.target.src = 'https://media.istockphoto.com/photos/half-of-orage-fruit-slice-isolated-on-white-picture-id950915068?b=1&k=20&m=950915068&s=170667a&w=0&h=QmGr8Pjt6KJPQYmwtbZiJ0t2bvWUGHriILUJJJ_bSUk='
+                  error.target.src = `${nullPic}`
                 }}
               />
               <Text
