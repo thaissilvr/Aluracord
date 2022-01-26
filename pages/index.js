@@ -83,7 +83,8 @@ export default function PaginaInicial() {
               </Text>
   
               <TextField
-              placeholder='Insira seu user do Github aqui... 😁'
+                placeholder='Insira seu user do Github aqui... 😁'
+                autocomplete="off"
                 value = {username}
                 onChange={function (event){
                   const userValue = event.target.value
