@@ -25,22 +25,19 @@ function Titulo (props) {
 
 export default function PaginaInicial() {
     const [username, setUsername] = React.useState('')
-    const [info, setInfo] = React.useState('')
+    // const [info, setInfo] = React.useState('')
     const roteamento = useRouter();
     const nullPic = 'https://media.istockphoto.com/photos/half-of-orage-fruit-slice-isolated-on-white-picture-id950915068?b=1&k=20&m=950915068&s=170667a&w=0&h=QmGr8Pjt6KJPQYmwtbZiJ0t2bvWUGHriILUJJJ_bSUk='
 
 
-    useEffect (() => {
-        const githubApi = async () => {
-          await axios.get(`https://api.github.com/users/${username}`).then((response) => {
-            setInfo(response.data)
-            // console.log(response.data)
-          })
-        }
-        githubApi() 
-    })
-
-
+    
+      // const githubApi = async () => {
+      //   await axios.get(`https://api.github.com/users/${username}`).then((response) => {
+      //   setInfo(response.data)
+      //       // console.log(response.data)
+      //   })
+      // }
+      // githubApi()
 
     return (
       <>
@@ -156,7 +153,7 @@ export default function PaginaInicial() {
                 {username}
                 
               </Text>
-              <Text
+              {/* <Text
                 variant="body4"
                 styleSheet={{
                   color: appConfig.theme.colors.neutrals['050'],
@@ -177,7 +174,7 @@ export default function PaginaInicial() {
                 }}
               >
               Repositórios: {info.public_repos}
-              </Text>
+              </Text> */}
             </Box>
             {/* Photo Area */}
           </Box>
