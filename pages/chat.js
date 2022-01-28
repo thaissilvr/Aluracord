@@ -1,25 +1,43 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import React from 'react';
 import appConfig from '../config.json';
+import { createClient } from '@supabase/supabase-js';
 
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzMyMzkwOSwiZXhwIjoxOTU4ODk5OTA5fQ.Ni7qrY4kcbZQ7PaBnrhQZOcoy8JKb86RmIC67rO2L_c'
+const SUPABASE_URL = 'https://qokjwfxodftlgcjrgdwf.supabase.co'
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 
 export default function ChatPage() {
     const [message, setMessage] = React.useState('')
     const [msgList, setMsgList] = React.useState([])
 
+    React.useEffect(() => {
+        supabase
+        .from('aluracord-msg')
+        .select('*')
+        .order('id', {ascending: false})
+        .then((data) =>{
+        setMsgList(data.data)
+    })
+    }, []);
 
 
     function handleNewMsg(newMsg) {
         const msg = {
-            id: msgList.length + 1,
             from: 'thaissilvr',
             text: newMsg
-        }
-        setMsgList([
-            msg,
-            ...msgList
-        ])
+        };
+        supabase
+        .from('aluracord-msg')
+        .insert([msg])
+        .then(({data}) => {
+            console.log(data)
+            setMsgList([
+                data[0],
+                ...msgList
+            ])
+        })
         setMessage('')
     }
 
@@ -60,7 +78,7 @@ export default function ChatPage() {
                         padding: '16px',
                     }}
                 >
-                    <MessageList msgs={msgList} />
+                    <MessageList msg={msgList} />
 
                     <Box
                         as="form"
@@ -142,6 +160,7 @@ function Header() {
 }
 
 function MessageList(props) {
+    console.log(props)
     return (
         <Box
             tag="ul"
@@ -155,7 +174,7 @@ function MessageList(props) {
             }}
         >
 
-            {props.msgs.map((message) => {
+            {props.msg.map((message) => {
                 return (
                     <Text
                         key={message.id}
@@ -182,7 +201,7 @@ function MessageList(props) {
                                     display: 'inline-block',
                                     marginRight: '8px',
                                 }}
-                                src={`https://github.com/thaissilvr.png`}
+                                src={`https://github.com/${message.from}.png`}
                             />
                             <Text tag="strong">
                                 {message.from}
