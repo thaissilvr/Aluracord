@@ -21,7 +21,9 @@ function liveMsg(addMessage) {
 
 export default function ChatPage() {
     const roteamento = useRouter();
+    console.log(roteamento.query)
     const login = roteamento.query.username;
+    console.log(login)
     const [message, setMessage] = React.useState('')
     const [msgList, setMsgList] = React.useState([])
 
@@ -39,7 +41,6 @@ export default function ChatPage() {
         });
     });
     }, []);
-
 
     function handleNewMsg(newMsg) {
         const msg = {

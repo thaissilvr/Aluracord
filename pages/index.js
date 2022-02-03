@@ -24,18 +24,23 @@ function Titulo (props) {
 
 export default function PaginaInicial() {
     const [username, setUsername] = React.useState('')
+    const [git, setGit] = React.useState('')
     const roteamento = useRouter();
     const nullPic = 'https://media.istockphoto.com/photos/half-of-orage-fruit-slice-isolated-on-white-picture-id950915068?b=1&k=20&m=950915068&s=170667a&w=0&h=QmGr8Pjt6KJPQYmwtbZiJ0t2bvWUGHriILUJJJ_bSUk='
 
-
-    
-      // const githubApi = async () => {
-      //   await axios.get(`https://api.github.com/users/${username}`).then((response) => {
-      //   setInfo(response.data)
-      //       // console.log(response.data)
-      //   })
-      // }
-      // githubApi()
+    useEffect(() => {
+      const git = async function () {
+       await fetch(`https://api.github.com/users/${username}`)
+          .then((resp) => resp.json())
+          .then((data) => {
+            setGit(data)
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+      git();
+    }, []);
 
     return (
       <>
@@ -68,7 +73,7 @@ export default function PaginaInicial() {
               onSubmit={function (event){
                 event.preventDefault()
                 console.log('alguém enviou o form')
-                roteamento.push(`/chat?${username}`)
+                roteamento.push({pathname: '/chat', query: {username: username}})
               }}
               styleSheet={{
                 display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
