@@ -8,6 +8,16 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5v
 const SUPABASE_URL = 'https://qokjwfxodftlgcjrgdwf.supabase.co'
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
+function liveMsg(addMessage) {
+    return supabase
+      .from('aluracord-msg')
+      .on("INSERT", (respLive) => {
+        addMessage(respLive.new);
+      })
+      .subscribe();
+  }
+  
+
 
 export default function ChatPage() {
     const roteamento = useRouter();
@@ -22,7 +32,12 @@ export default function ChatPage() {
         .order('id', {ascending: false})
         .then((data) =>{
         setMsgList(data.data)
-    })
+    });
+    liveMsg((newMsg) => {
+        setMsgList((newValue) =>{
+            return [newMsg, newValue]
+        });
+    });
     }, []);
 
 
